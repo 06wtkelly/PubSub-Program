@@ -21,8 +21,16 @@ class Client:
         self._running = False
         self._error_code = 0
 
-    def add_subscription(self, topic, filter):
-        self.subscriptions.add_subscription(topic, filter)
+    def subscribe(self, topic, filter_criteria) -> bool:
+        """
+        Throws:
+            - DuplicateSubscriptionException
+            - InvalidSubscriptionFilterException
+        """
+        return self.subscriptions.add_subscription(topic, filter_criteria)
+
+    def unsubscribe(self, topic) -> bool:
+        return self.subscriptions.remove_subscription(topic)
 
     def quit(self) -> None:
         self._running = False
@@ -34,7 +42,7 @@ class Client:
             if ready:
                 return sys.stdin.readline().strip()
         except (EOFError, KeyboardInterrupt) as e:
-            print(f"Exception in read_user_input, exiting...")
+            print(f"[DEBUG] Exception in read_user_input, exiting...")
             self._running = False
             self._error_code = 1
             return ""
@@ -68,7 +76,7 @@ class Client:
             user_input = self.read_user_input()
             if not user_input:
                 continue    # Nothing to process so just loop again
-            print(f"ECHO: {user_input}")
+            print(f"[DEBUG] ECHO: {user_input}")
 
             self.handle_user_input(user_input)
             if self._error_code != 0:

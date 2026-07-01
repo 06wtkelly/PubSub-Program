@@ -1,4 +1,5 @@
 from extras import is_valid_topic, is_valid_message
+from Subscriptions import DuplicateSubscriptionException, InvalidSubscriptionFilterException
 
 ###############################################################################
 class ClientCommandHandler:
@@ -96,13 +97,39 @@ class ClientCommandHandler:
                     self.commands.invalid_topic_msg(topic))
             return False
 
-        filter = args[1] if len(args) == 2 else None
-        self.client.add_subscription(topic, filter)
+        filter_criteria = args[1] if len(args) == 2 else None
 
-        return False
+        try:
+            self.client.subscribe(topic, filter_criteria)
+        except DuplicateSubscriptionException:
+            self.client.interface.display_error(
+                    self.commands.indentical_subscription_msg())
+            return False
+        except InvalidSubscriptionFilterException:
+            self.client.interface.display_error(
+                    self.commands.invalid_filter_msg(
+                        filter_criteria or "[FATAL ERROR]"
+                    ) # HACK:: Use of [FATAL ERROR]
+            )
+            return False
+
+        return True
 
     def unsubscribe(self, cmd, args) -> bool:
-        return False
+        if len(args) != 1:
+            self.client.interface.display_error(
+                    self.commands.unknown_arguments_msg(cmd))
+            return False
+
+        topic = args[0]
+        success = self.client.unsubscribe(topic)
+        if not success:
+            self.client.interface.display_error(
+                    self.commands.failed_unsubscribe_msg(topic))
+            return False
+        
+        # TODO: interface to show successful unsubscribe
+        return True
 
     def list_subscriptions(self, cmd, args) -> bool:
         if args:

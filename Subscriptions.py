@@ -1,5 +1,11 @@
 from typing import List
 
+class DuplicateSubscriptionException(Exception):
+    pass
+
+class InvalidSubscriptionFilterException(Exception):
+    pass
+
 class SubscriptionManager:
 
     def __init__(self):
@@ -11,11 +17,13 @@ class SubscriptionManager:
     def add_subscription(self, topic, filter_criteria=None) -> bool:
         sub = Subscription(topic)
         if filter_criteria:
-            sub.add_filter(filter_criteria)
+            success = sub.add_filter(filter_criteria)
+            if not success:
+                raise InvalidSubscriptionFilterException
 
         for other in self._subscriptions:
             if sub == other:
-                return False
+                raise DuplicateSubscriptionException()
 
         self._subscriptions.append(sub)
         return True
