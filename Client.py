@@ -4,7 +4,7 @@ import sys
 
 from Subscriptions import SubscriptionManager
 from CommandHandler import ClientCommandHandler
-from CLI import ClientCLI
+from TerminalInterface import ClientCLI
 
 class Client:
 
