@@ -32,3 +32,6 @@ htmlcov/
 .idea/
 *.swp
 .DS_Store (macOS)
+
+# Classified Spec Sheet
+COMS3200 2026 Assignment v1.2.pdf
