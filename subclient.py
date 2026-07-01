@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from pubsubshared import Connection
-from client import Client
+from Client import Client
 from extras import is_valid_id, is_valid_topic, is_valid_message
 
 PROGRAM = "pubsubclient"
