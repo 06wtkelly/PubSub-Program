@@ -128,7 +128,8 @@ class ClientCommandHandler:
                     self.commands.failed_unsubscribe_msg(topic))
             return False
         
-        # TODO: interface to show successful unsubscribe
+        self.client.interface.display_successful_command(
+                self.commands.successful_unsubscribe_msg(topic))
         return True
 
     def list_subscriptions(self, cmd, args) -> bool:
@@ -142,12 +143,15 @@ class ClientCommandHandler:
         return True
 
     def list_limits(self, cmd, args) -> bool:
+        # TODO:
         return False
 
     def publish_message(self, cmd, args) -> bool:
+        # TODO:
         return False
 
     def send_file(self, cmd, args) -> bool:
+        # TODO:
         return False
 
 ###############################################################################
