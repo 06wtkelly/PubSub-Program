@@ -122,7 +122,8 @@ class Client:
             user_input = self.read_user_input()
             if not user_input:
                 continue    # Nothing to process so just loop again
-            print(f"[ECHO] {user_input}")
+
+            # print(f"[ECHO] {user_input}")
 
             self.handle_user_input(user_input)
             if self._error_code != 0:
