@@ -139,7 +139,7 @@ class ClientCommandHandler:
             return False
 
         subs = self.client.subscriptions.get_subscriptions()
-        # TODO: interface to show subscriptions
+        self.client.interface.display_all_subscriptions(subs)
         return True
 
     def list_limits(self, cmd, args) -> bool:
