@@ -24,8 +24,8 @@ class Client:
         self.subscriptions = SubscriptionManager()
         self.rate_limiter = RateLimiter()
         self.file_handler = FileHandler()
-        self.commands = ClientCommandHandler(self)
         self.interface = ClientCLI()
+        self.commands = ClientCommandHandler(self)
 
         self._running = False
         self._error_code = 0
