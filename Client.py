@@ -5,6 +5,7 @@ import sys
 from Subscriptions import SubscriptionManager
 from CommandHandler import ClientCommandHandler
 from FileHandler import FileHandler
+from RateLimiter import RateLimiter
 from TerminalInterface import ClientCLI
 
 class Client:
@@ -21,7 +22,7 @@ class Client:
         self.connection = connection
 
         self.subscriptions = SubscriptionManager()
-        # self.rate_limiter = RateLimiter()
+        self.rate_limiter = RateLimiter()
         self.file_handler = FileHandler()
         self.commands = ClientCommandHandler(self)
         self.interface = ClientCLI()
