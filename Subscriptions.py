@@ -19,7 +19,7 @@ class SubscriptionManager:
         if filter_criteria:
             success = sub.add_filter(filter_criteria)
             if not success:
-                raise InvalidSubscriptionFilterException
+                raise InvalidSubscriptionFilterException()
 
         for other in self._subscriptions:
             if sub == other:
