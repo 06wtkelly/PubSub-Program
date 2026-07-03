@@ -1,5 +1,6 @@
 from extras import is_valid_topic, is_valid_message
 from Subscriptions import DuplicateSubscriptionException, InvalidSubscriptionFilterException
+from FileHandler import EmptyFilenameException, UnableToReadFileException, UnableToSaveFileException
 
 ###############################################################################
 class ClientCommandHandler:
@@ -151,8 +152,22 @@ class ClientCommandHandler:
         return False
 
     def send_file(self, cmd, args) -> bool:
-        # TODO:
-        return False
+        # args = [filename, topic | None] 
+        if len(args) != 1 and len(args) != 2:
+            self.client.interface.disply_error(
+                    self.commands.unknown_arguments_msg(cmd))
+            return False
+
+        filepath = args[0]
+        topic = args[1] if len(args) == 2 else None
+        try:
+            file_content = self.client.file_handler.read_file(filepath)
+            # TODO: send to server
+            return True
+        except UnableToReadFileException:
+            self.client.interface.display_error(
+                    self.commands.unable_to_open_file_msg(filepath))
+            return False
 
 ###############################################################################
 class CommandMessages:
